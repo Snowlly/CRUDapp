@@ -50,16 +50,20 @@ class EnterpriseController {
 }
 
     public function edit($id) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->model->update($id, $_POST);
-            header("Location: index.php?page=EnterpriseShow&action=show&id=$id");
-            exit;
-        }
 
-        return [
-            'enterprise' => $this->model->getById($id)
-        ];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $this->model->update($id, $_POST);
+        header("Location: index.php?page=EnterpriseShow&id=$id");
+        exit;
     }
+
+    // Récupération des données pour pré-remplir le formulaire
+    return [
+        'enterprise'     => $this->model->getById($id),
+        'denomination'   => $this->model->getMainDenomination($id),
+        'address'        => $this->model->getMainAddress($id),
+    ];
+}
 
     public function delete($id) {
         $this->model->delete($id);

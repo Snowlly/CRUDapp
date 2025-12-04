@@ -69,20 +69,129 @@ class EnterpriseModel extends BDD {
     }
 
     public function create($data) {
-        $req = $this->pdo->prepare("
-            INSERT INTO enterprise (EnterpriseNumber, Status, JuridicalSituation, TypeOfEnterprise, JuridicalForm, StartDate)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ");
 
-        return $req->execute([
-            $data['EnterpriseNumber'],
-            $data['Status'],
-            $data['JuridicalSituation'],
-            $data['TypeOfEnterprise'],
-            $data['JuridicalForm'],
-            $data['StartDate']
+    $errors = [];
+
+    if (empty($data['EnterpriseNumber'])) {
+        $errors[] = "Le numéro d'entreprise est obligatoire.";
+    }
+
+    if (empty($data['Denomination'])) {
+        $errors[] = "Le nom de l'entreprise est obligatoire.";
+    }
+
+    if (empty($data['Status'])) {
+        $errors[] = "Le statut est obligatoire.";
+    }
+
+    if (!empty($errors)) {
+        return $errors;
+    }
+
+    $num  = trim($data['EnterpriseNumber']);
+    $denom = trim($data['Denomination']);
+
+    // On commence une transaction pour tout insérer proprement
+    $this->pdo->beginTransaction();
+
+    try {
+        // 1) enterprise
+        $sqlEnt = "
+            INSERT INTO enterprise (
+                EnterpriseNumber, Status, JuridicalSituation,
+                TypeOfEnterprise, JuridicalForm, StartDate
+            ) VALUES (
+                :num, :status, :js, :toe, :jf, :start
+            )
+        ";
+
+        $stmt = $this->pdo->prepare($sqlEnt);
+        $stmt->execute([
+            ':num'   => $num,
+            ':status'=> $data['Status'],
+            ':js'    => $data['JuridicalSituation'] ?? null,
+            ':toe'   => $data['TypeOfEnterprise'] ?? null,
+            ':jf'    => $data['JuridicalForm'] ?? null,
+            ':start' => $data['StartDate'] ?? null,
+        ]);
+
+        // 2) denomination (nom principal)
+        $sqlDen = "
+            INSERT INTO denomination (EntityNumber, Language, TypeOfDenomination, Denomination)
+            VALUES (:num, '2', '001', :denom)
+        ";
+        $stmtDen = $this->pdo->prepare($sqlDen);
+        $stmtDen->execute([
+            ':num'   => $num,
+            ':denom' => $denom
+        ]);
+
+        // 3) address (si renseignée)
+       
+            $addressType = $data['AddressType'] ?? 'REGO';
+
+        if (
+            !empty($data['StreetFR']) ||
+            !empty($data['MunicipalityFR']) ||
+            !empty($data['Zipcode'])
+        ) {
+            $sqlAddr = "
+                INSERT INTO address (
+                    EntityNumber, TypeOfAddress,
+                    Zipcode, MunicipalityFR, MunicipalityNL,
+                    StreetFR, StreetNL, HouseNumber
+                ) VALUES (
+                    :num, :type,
+                    :zip, :city, :city,
+                    :street, :street, :house
+                )
+            ";
+
+            $stmtAddr = $this->pdo->prepare($sqlAddr);
+            $stmtAddr->execute([
+                ':num'   => $num,
+                ':type'  => $addressType,
+                ':zip'   => $data['Zipcode'] ?? null,
+                ':city'  => $data['MunicipalityFR'] ?? null,
+                ':street'=> $data['StreetFR'] ?? null,
+                ':house' => $data['HouseNumber'] ?? null,
+            ]);
+        }
+        
+        if ($addressType === 'SECU') {
+
+        // Génération d’un numéro d’établissement (fictif mais unique)
+        $establishmentNumber = "2." . str_pad(rand(1,999999999), 9, "0", STR_PAD_LEFT);
+
+        $sqlEst = "
+            INSERT INTO establishment (
+                EstablishmentNumber,
+                StartDate,
+                EnterpriseNumber
+            ) VALUES (
+                :estnum,
+                :start,
+                :ent
+            )
+        ";
+
+        $stmtEst = $this->pdo->prepare($sqlEst);
+        $stmtEst->execute([
+            ':estnum' => $establishmentNumber,
+            ':start'  => $data['StartDate'] ?? date("Y-m-d"),
+            ':ent'    => $num
         ]);
     }
+
+
+        $this->pdo->commit();
+        return true;
+
+    } catch (\Throwable $e) {
+        $this->pdo->rollBack();
+        return ["Erreur lors de la création : " . $e->getMessage()];
+    }
+}
 
     public function update($entityNumber, $data) {
         $req = $this->pdo->prepare("

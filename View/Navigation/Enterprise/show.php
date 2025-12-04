@@ -44,6 +44,10 @@
 
         <div class="btn-actions">
             <a class="btn-blue" href="index.php?page=EnterpriseIndex">Retour</a>
+            <a class="btn-green"
+                href="index.php?page=EnterpriseEdit&id=<?= $enterprise['EnterpriseNumber'] ?>">
+                Modifier
+            </a>
             <a class="btn-red"
                onclick="return confirm('Supprimer cette entreprise ?')"
                href="index.php?page=EnterpriseIndex&action=delete&id=<?= $enterprise['EnterpriseNumber'] ?>">

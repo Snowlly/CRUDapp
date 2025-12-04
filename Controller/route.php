@@ -39,12 +39,13 @@ $routes = array(
     ],
 
     'EnterpriseEdit' => [
-    'header' => 'HeaderPage',
+    'header' => 'HeaderIndex',
     'footer' => 'Footer',
     'controleur' => 'EnterpriseController',
     'model' => 'EnterpriseModel',
     'vue' => 'Enterprise/edit',
-    'active' => true
+    'active' => true,
+    'action' => 'edit'
     ],
 
     'EnterpriseDelete' => [
