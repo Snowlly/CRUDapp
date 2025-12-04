@@ -29,12 +29,13 @@ $routes = array(
     ],
 
     'EnterpriseCreate' => [
-    'header' => 'HeaderPage',
+    'header' => 'HeaderIndex',
     'footer' => 'Footer',
     'controleur' => 'EnterpriseController',
     'model' => 'EnterpriseModel',
     'vue' => 'Enterprise/create',
-    'active' => true
+    'active' => true,
+    'action' => 'create'
     ],
 
     'EnterpriseEdit' => [

@@ -32,14 +32,22 @@ class EnterpriseController {
     }
 
     public function create() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->model->create($_POST);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $result = $this->model->create($_POST);
+
+        if ($result === true) {
             header("Location: index.php?page=EnterpriseIndex");
             exit;
         }
 
-        return []; // pour afficher la vue create
+        // Retourne les erreurs à la vue
+        return ['errors' => $result];
     }
+
+    return [];
+}
 
     public function edit($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

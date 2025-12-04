@@ -16,6 +16,13 @@
         <button class="search-btn">Rechercher</button>
     </form>
 
+    <!-- ADD ENTERPRISE BUTTON -->
+    <div class="add-container">
+        <a href="index.php?page=EnterpriseCreate" class="add-btn">
+            + Ajouter une entreprise
+        </a>
+    </div>
+
     <!-- RESULTS -->
     <div class="result-title">Résultats trouvés</div>
     <div class="result-sub">
