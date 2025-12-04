@@ -1,0 +1,112 @@
+.index-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+}
+
+/* SEARCH BAR */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.search-btn {
+    padding: 12px 20px;
+    background: #1f5cc6;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.filters {
+    margin-bottom: 25px;
+}
+
+.filter-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #d0d0d0;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* RESULT TITLE */
+.result-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.result-sub {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* COMPANY CARD */
+.company-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.company-header {
+    background: #1f5cc6;
+    padding: 15px 25px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 12px 12px 0 0;
+}
+
+.company-body {
+    padding: 25px;
+}
+
+.company-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 25px;
+    gap: 10px;
+}
+
+.label {
+    color: #888;
+    font-size: 14px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111;
+}
+
+.company-footer {
+    padding: 15px 25px;
+    background: #fafafa;
+    border-top: 1px solid #e6e6e6;
+}
+
+.go-btn {
+    float: right;
+    background: #1f5cc6;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 18px;
+}

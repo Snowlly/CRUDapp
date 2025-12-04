@@ -6,22 +6,26 @@ $routes = array(
     'IndexMain' => array('nom' => 'IndexMain', 'header' => 'HeaderIndex', 'footer' => 'Footer', 'controleur' => null, 'model' => '', 'vue' => 'IndexMain', 'js' => 'Accueil', 'bdd' => 'BDD', 'visible' => true, 'active' => true),
     'ProjetMain' => array('nom' => 'ProjetMain', 'header' => 'HeaderPage', 'footer' => 'Footer', 'controleur' => null, 'model' => '', 'vue' => 'ProjetMain', 'js' => '', 'bdd' => 'BDD', 'visible' => true, 'active' => true),
 
+    // Enterprise
+
     'EnterpriseIndex' => [
-    'header' => 'HeaderPage',
+    'header' => 'HeaderIndex',
     'footer' => 'Footer',
     'controleur' => 'EnterpriseController',
     'model' => 'EnterpriseModel',
     'vue' => 'Enterprise/index',
-    'active' => true
+    'active' => true,
+    'action' => 'index'
     ],
 
     'EnterpriseShow' => [
-    'header' => 'HeaderPage',
+    'header' => 'HeaderIndex',
     'footer' => 'Footer',
     'controleur' => 'EnterpriseController',
     'model' => 'EnterpriseModel',
     'vue' => 'Enterprise/show',
-    'active' => true
+    'active' => true,
+    'action' => 'show'
     ],
 
     'EnterpriseCreate' => [
@@ -42,6 +46,20 @@ $routes = array(
     'active' => true
     ],
 
+    'EnterpriseDelete' => [
+    'nom' => 'EnterpriseDelete',
+    'header' => 'HeaderIndex',
+    'footer' => 'Footer',
+    'controleur' => 'EnterpriseController',
+    'model' => 'EnterpriseModel',
+    'vue' => null,
+    'active' => true,
+    'action' => 'delete'
+    ],
+
+    // Establishment
+
+
     'EstablishmentCreate' => [
     'header' => 'HeaderPage',
     'footer' => 'Footer',
@@ -49,6 +67,6 @@ $routes = array(
     'model' => 'EstablishmentModel',
     'vue' => 'Establishment/create',
     'active' => true
-    ],
+    ]
 );
 ?>
